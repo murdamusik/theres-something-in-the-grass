@@ -18,7 +18,45 @@ namespace SpriteKind {
     export const Coin = SpriteKind.create()
     export const Flier = SpriteKind.create()
 }
-// both Aaron and Kaleb aided in making the pickup/kill effects of the monsters/coins
+/**
+ * also part of aaron's walking speed code
+ */
+/**
+ * Aaron made the double jump mech.
+ */
+/**
+ * Aaron made the part that goes to the next level.
+ */
+/**
+ * kaleb made all 3 of these, the void parts. this code allows for it to kill the player instantly
+ */
+/**
+ * the message for when a flier hits you and you lose a life
+ */
+/**
+ * when you pick up a coin, what happens when you do so.
+ */
+/**
+ * kaleb made the flying animation. kaleb made the animation for the character, kind of buggy though, doesn't work sometimes .kaleb made the animation for the idle, also buggy.
+ */
+/**
+ * kaleb made the jumping animations as well as all the other animations
+ */
+/**
+ * Aaron made the level changing system
+ */
+/**
+ * this function clears the level after you exit it I believe. Aaron made this
+ */
+/**
+ * this code is for how the monsters are created.
+ */
+/**
+ * kaleb made this. it is just an array of wherever this tile is placed, is where the character will spawn.
+ */
+/**
+ * both Aaron and Kaleb aided in making the pickup/kill effects of the monsters/coins
+ */
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Bumper, function (sprite, otherSprite) {
     if (sprite.vy > 0 && !(sprite.isHittingTile(CollisionDirection.Bottom)) || sprite.y < otherSprite.top) {
         otherSprite.destroy(effects.ashes, 250)
@@ -44,11 +82,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile19`, function (sprite, 
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     attemptJump()
 })
-// kaleb made all 3 of these, the void parts. this code allows for it to kill the player instantly
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
     info.changeLifeBy(-1000)
 })
-// kaleb made the animation of the coins within the level
+/**
+ * kaleb made the animation of the coins within the level
+ */
 function initializeCoinAnimation () {
     coinAnimation = animation.createAnimation(ActionKind.Walking, 200)
     coinAnimation.addAnimationFrame(img`
@@ -134,6 +173,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Coin, function (sprite, otherSpr
     info.changeScoreBy(3)
     music.spooky.play()
 })
+/**
+ * aaron made the attempt to double jump code. just see if you can double jump then sets your velocity for the double jump.
+ */
 function attemptJump () {
     if (guy.isHittingTile(CollisionDirection.Bottom)) {
         guy.vy = -4 * pixelsToMeters
@@ -149,7 +191,6 @@ function attemptJump () {
         canDoubleJump = false
     }
 }
-// kaleb made the animation
 function animateIdle () {
     mainIdleLeft = animation.createAnimation(ActionKind.Walking, 100)
     animation.attachAnimation(guy, mainIdleLeft)
@@ -192,7 +233,6 @@ function animateIdle () {
         . . f f . . . f f f . . 
         `)
 }
-// Aaron made the level changing system
 function setLevelTileMap (level: number) {
     clearGame()
     if (level == 0) {
@@ -216,7 +256,6 @@ function setLevelTileMap (level: number) {
     }
     initializeLevel(level)
 }
-// kaleb made the flying animation
 function initializeFlierAnimations () {
     flierFlying = animation.createAnimation(ActionKind.Flying, 100)
     flierFlying.addAnimationFrame(img`
@@ -332,7 +371,6 @@ function initializeFlierAnimations () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     attemptJump()
 })
-// kaleb made the animation
 function animateRun () {
     mainRunLeft = animation.createAnimation(ActionKind.Walking, 100)
     animation.attachAnimation(guy, mainRunLeft)
@@ -447,7 +485,6 @@ function animateRun () {
         . . . . f f f . . . . . 
         `)
 }
-// kaleb made the jumping animations as well as all the other animations
 function animateJumps () {
     mainJumpLeft = animation.createAnimation(ActionKind.Walking, 100)
     animation.attachAnimation(guy, mainJumpLeft)
@@ -658,7 +695,6 @@ function initializeHeroAnimations () {
     animateIdle()
     animateJumps()
 }
-// Aaron made the part that goes to the next level.
 scene.onOverlapTile(SpriteKind.Player, assets.tile`goal`, function (sprite, location) {
     info.changeLifeBy(1)
     currentLevel += 1
@@ -707,7 +743,9 @@ function initializeLevel (level: number) {
 function hasNextLevel () {
     return currentLevel != levelCount
 }
-// Aaron created the spawn array of the coins
+/**
+ * Aaron created the spawn array of the coins
+ */
 function spawnGoals () {
     for (let value7 of tiles.getTilesByType(assets.tile`skul`)) {
         coin = sprites.create(img`
@@ -734,7 +772,9 @@ function spawnGoals () {
         tiles.setTileAt(value7, assets.tile`tile0`)
     }
 }
-// kaleb made the on start commands as well as the art for the game
+/**
+ * kaleb made the on start commands as well as the art for the game
+ */
 let heroFacingLeft = false
 let coin: Sprite = null
 let playerStartLocation: tiles.Location = null
@@ -947,7 +987,6 @@ game.showLongText("you have been sent here to complete a series of obstacles.", 
 game.showLongText("you must collect as many skulls as possible along the way.", DialogLayout.Bottom)
 game.showLongText("be careful, there will be many monsters along your way.", DialogLayout.Bottom)
 game.showLongText("good luck.", DialogLayout.Bottom)
-// also part of aaron's walking thing
 game.onUpdate(function () {
     if (guy.vx < 0) {
         heroFacingLeft = true
@@ -981,7 +1020,9 @@ game.onUpdate(function () {
         }
     }
 })
-// Aaron made this walking thing I believe its just the speed of the walking.
+/**
+ * kaleb made all 3 of these, the void parts. this code allows for it to kill the player instantly
+ */
 game.onUpdate(function () {
     for (let value8 of sprites.allOfKind(SpriteKind.Flier)) {
         if (Math.abs(value8.x - guy.x) < 60) {
@@ -1003,7 +1044,6 @@ game.onUpdate(function () {
         }
     }
 })
-// Aaron made the double jump mech
 game.onUpdate(function () {
     if (guy.isHittingTile(CollisionDirection.Bottom)) {
         canDoubleJump = true
